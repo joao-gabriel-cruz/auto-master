@@ -1,33 +1,39 @@
 import { InsertDriveFile } from "@mui/icons-material"
 import { FileType } from "../../../store/file/file.module"
-import { Menu, MenuItem } from "@mui/material"
-import { useState } from "react"
-import { FolderService } from "../../../store/folder/folder.service"
+
 import { SetState } from "../../../@types/utils"
+import { cn } from "../../../utils/tw"
 
 interface CardFilesProps {
   file: FileType
   fileSelected: FileType | null
   verifySelectedFile: boolean
   setFileSelected:  SetState<FileType | null>
+  setVerifySelectedFile: SetState<boolean>
 }
 
 export const CardFiles = (props: CardFilesProps) => {
-  const { file } = props
-  const [open, setOpen] = useState(false)
-  const {removeFolder} = FolderService()
+  const { file, setFileSelected, fileSelected, setVerifySelectedFile } = props
 
-  const onClose = () => {
-    setOpen(false)
-  }
-
-  const handleRemove = () => {
-    removeFolder(file.id)
-  }
 
   return (
     <div
-      className="flex flex-col items-center justify-between bg-emerald-50 rounded-md shadow-md p-2 hover:bg-emerald-300 duration-300 transition-all"
+      onClick={() => {
+          setFileSelected(file)
+          if (fileSelected) {
+            if (fileSelected.id !== file.id) {
+              setVerifySelectedFile(false)
+            } else {
+              setVerifySelectedFile(true)
+            }
+          } else {
+            setVerifySelectedFile(false)
+          }
+      }
+    }
+      className={cn("flex flex-col items-center justify-between bg-emerald-50 rounded-md shadow-md p-2 hover:bg-emerald-300 duration-300 transition-all", 
+        fileSelected && fileSelected.id === file.id ? "bg-emerald-200" : "hover:bg-emerald-100"
+      )}
     >
       <div
         className="w-full flex gap-2 justify-start mb-2"
@@ -37,21 +43,8 @@ export const CardFiles = (props: CardFilesProps) => {
           {file.name}
         </p>
       </div>
-      <Menu
-        id="basic-menu"
-        open={open}
-        onClose={onClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleRemove}>
-          <div>
-            Deletar
-          </div>
-        </MenuItem>
 
-      </Menu>
+
       <div
         className="w-32 h-32 bg-white rounded-md flex items-center justify-center"
       >

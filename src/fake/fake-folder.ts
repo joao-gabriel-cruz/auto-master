@@ -28,11 +28,14 @@ export const fakeFiles: FileType[] = [
   {
     id: "1",
     name: 'file1',
-    idFolder: null
+    idFolder: null,
+    path: "/arquivo.pdf"
   },
   {
     id: "2",
     name: 'file2',
-    idFolder: "1"
+    idFolder: "1",
+    path: "/arquivo.pdf"
+
   }
 ]
