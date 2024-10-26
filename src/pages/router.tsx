@@ -1,19 +1,27 @@
 import  { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { SideBar } from './sidebar';
+import { CheckCircleOutline, Folder as FolderIcon } from '@mui/icons-material';
+import { Folder } from './folder';
 
 export interface PageSideBar {
   name: string
   path: string
-  icon: string
+  icon: React.ElementType
   element: React.ReactNode
 }
 
 export const pages: PageSideBar[] = [
   {
     name: 'Correções',
-    icon: '📝',
+    icon: CheckCircleOutline,
     path: '/corrections',
     element: <div>Corrections</div>
+  },
+  {
+    name: 'Arquivos',
+    icon: FolderIcon,
+    path: '/folder',
+    element: <Folder />
   }
 ]
 
