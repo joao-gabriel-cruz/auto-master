@@ -3,12 +3,13 @@ import { FileType } from "../../../store/file/file.module"
 import { Menu, MenuItem } from "@mui/material"
 import { useState } from "react"
 import { FolderService } from "../../../store/folder/folder.service"
+import { SetState } from "../../../@types/utils"
 
 interface CardFilesProps {
   file: FileType
   fileSelected: FileType | null
   verifySelectedFile: boolean
-  setFileSelected: 
+  setFileSelected:  SetState<FileType | null>
 }
 
 export const CardFiles = (props: CardFilesProps) => {
