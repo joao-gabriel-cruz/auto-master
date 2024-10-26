@@ -1,12 +1,8 @@
+import { Login } from "./pages/login"
+
 function App() {
 
-  return (
-    <div
-    className="text-4xl font-bold text"
-    >
-      oi
-    </div>
-  )
+  return  <Login />
 }
 
 export default App
