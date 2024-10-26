@@ -1,3 +1,4 @@
+import { cn } from "../utils/tw";
 
 interface InputProps {
   label: string;
@@ -15,7 +16,7 @@ export const Input = ({ label, ...rest}: InputProps) => {
     </label>
     <input
       {...rest}
-      className='w-full p-2 border border-gray-300 rounded-md'
+      className={cn('w-full p-2 border border-gray-300 rounded-md')}
     />
    </>
   );
