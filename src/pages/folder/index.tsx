@@ -7,6 +7,7 @@ import { FileService } from "../../store/file/file.service"
 import { CardFiles } from "./components/card-files"
 import { Modal, TextField } from "@mui/material"
 import { FileType } from "../../store/file/file.module"
+import { cn } from "../../utils/tw"
 
 export const Folder = () => {
 
@@ -42,181 +43,112 @@ export const Folder = () => {
       className="w-full h-full flex flex-col  bg-white rounded-md shadow-md p-2"
     >
       {
-        folderSelectedFolder && !verifySelectedFolder && (
-          <div
-            className="w-auto flex gap-2 mb-8 items-center justify-start bg-emerald-200 rounded-full px-4 py-1"
-          >
-            <button
-              onClick={() => setFolderSelected(null)}
-              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 rounded-full p-1"
-            >
-              <Clear />
-            </button>
-            <p
-              className="text-emerald-800"
-            >
-              1 item selecionado
-            </p>
-            <button
-              onClick={() => {
-                removeFolder(folderSelectedFolder.id)
-                setFolderSelected(null)
-              }}
-              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
-            >
-              <Delete />
-            </button>
-            <button
-              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
-            >
-              <Brush />
-            </button>
-          </div>
-        )
-      }
-
-      {
-        fileSelected && !verifySelectedFile && (
-          <div
-            className="w-auto flex gap-2 mb-8 items-center justify-start bg-emerald-200 rounded-full px-4 py-1"
-          >
-            <button
-              onClick={() => setFileSelected(null)}
-              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 rounded-full p-1"
-            >
-              <Clear />
-            </button>
-            <p
-              className="text-emerald-800"
-            >
-              1 item selecionado
-            </p>
-            <button
-              onClick={() => {
-                removeFile(fileSelected.id)
-                setFileSelected(null)
-              }}
-              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
-            >
-              <Delete />
-            </button>
-            {/* <button
-              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
-
-            >
-              <Brush />
-            </button> */}
-          </div>
-        )
-      }
-
-      <div
-        className="flex gap-2 h-full"
-      >
-
-        {!folderSelectedFolder || !verifySelectedFolder ? (
-          <div
-            className="flex flex-col gap-2"
-          >
+        fileSelected && verifySelectedFile ? 
+        <div
+          className="w-full h-[90%] justify-between flex flex-col">
             <div
-              className="flex gap-2"
+            className="p-2"
             >
-              {
-                folders.filter(item => !item.idFolderParent).map(folder => (
-                  <CardFolder
-                    setSelectFolder={setFolderSelected}
-                    key={folder.id}
-                    folder={folder}
-                    setVerifySelectedFolder={setVerifySelectedFolder}
-                    folderSelectedFolder={folderSelectedFolder}
-                  />
-                ))
-              }
-            </div>
-            <Modal
-              open={openModal}
-              className="w-full h-full flex justify-center items-center"
-            >
-              <div
-                className="min-w-72
-                 flex justify-between items-center bg-white rounded-md p-2 flex-col gap-2"
-              >
-                <div
-                  className="w-full flex justify-between items-center"
+              <button
+                  onClick={() => {
+                    setFileSelected(null)
+                    setVerifySelectedFile(false)
+                  }}
+                  className="flex h-12 text-zinc-600 text-lg hover:text-emerald-500 transition-all duration-300 items-center gap-2"
                 >
+                  <ArrowBackIos />
                   <p
-                    className="w-full text-lg text-start"
-                  >
-                    Nova Pasta
-                  </p>
-                </div>
-                <TextField
-                  className="w-full rounded-md p-2"
-                  placeholder="Nome da pasta"
-                  onChange={(e) => setSetNameFolder(e.target.value)}
-                />
-                <div
-                  className="w-full flex gap-2 justify-end"
-                >
-                  <button
-                    onClick={() => setOpenModal(false)}
-                    className="text-lg font-medium text-red-500 p-2 rounded-md"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    onClick={handleCreateFolder}
-                    className="text-lg font-medium text-emerald-500 p-2 rounded-md"
-                  >
-                    Criar
-                  </button>
-                </div>
-              </div>
-
-            </Modal>
-            <div
-              className="flex  gap-2"
-            >
-              {
-                getFilesNotInFolder().map(file => (
-                  <CardFiles
-                    file={file}
-                    key={file.id}
-                    fileSelected={fileSelected}
-                    setFileSelected={setFileSelected}
-                    verifySelectedFile={verifySelectedFile}
-                    setVerifySelectedFile={setVerifySelectedFile}
-                  />
-                ))
-              }
+                    className="text-md"
+                  >voltar</p>
+                </button>
             </div>
+            <embed src={fileSelected.path} type="application/pdf" width="100%" height="100%" />
           </div>
-        ) : (
+        :  <>
+          {
+            
+              <div
+                className={cn("w-auto flex gap-2 mb-8 items-center justify-start bg-emerald-200 rounded-full px-4 py-1",
+                  folderSelectedFolder && !verifySelectedFolder ? "opacity-100" : "opacity-0"
+                )}
+              >
+                <button
+                  onClick={() => setFolderSelected(null)}
+                  className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 rounded-full p-1"
+                >
+                  <Clear />
+                </button>
+                <p
+                  className="text-emerald-800"
+                >
+                  1 item selecionado
+                </p>
+                <button
+                  onClick={() => {
+                    removeFolder(folderSelectedFolder!.id)
+                    setFolderSelected(null)
+                  }}
+                  className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
+                >
+                  <Delete />
+                </button>
+                <button
+                  className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
+                >
+                  <Brush />
+                </button>
+              </div>
+            
+          }
+    
+          {
+            fileSelected && !verifySelectedFile && (
+              <div
+                className="w-auto flex gap-2 mb-8 items-center justify-start bg-emerald-200 rounded-full px-4 py-1"
+              >
+                <button
+                  onClick={() => setFileSelected(null)}
+                  className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 rounded-full p-1"
+                >
+                  <Clear />
+                </button>
+                <p
+                  className="text-emerald-800"
+                >
+                  1 item selecionado
+                </p>
+                <button
+                  onClick={() => {
+                    removeFile(fileSelected.id)
+                    setFileSelected(null)
+                  }}
+                  className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
+                >
+                  <Delete />
+                </button>
+                {/* <button
+                  className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
+    
+                >
+                  <Brush />
+                </button> */}
+              </div>
+            )
+          }
+    
           <div
-            className="flex flex-col gap-2"
+            className="flex gap-2 h-full"
           >
-            <button
-              onClick={() => {
-                setFolderSelected(getFolderFather(folderSelectedFolder))
-                setVerifySelectedFolder(false)
-              }}
-              className="flex h-12 text-zinc-600 text-lg hover:text-emerald-500 transition-all duration-300 items-center gap-2"
-            >
-              <ArrowBackIos />
-              <p
-                className="text-md"
-              >voltar</p>
-            </button>
-            <div>
+    
+            {!folderSelectedFolder || !verifySelectedFolder ? (
               <div
                 className="flex flex-col gap-2"
               >
                 <div
                   className="flex gap-2"
                 >
-
                   {
-                    getFolderChildren(folderSelectedFolder!).map(folder => (
+                    folders.filter(item => !item.idFolderParent).map(folder => (
                       <CardFolder
                         setSelectFolder={setFolderSelected}
                         key={folder.id}
@@ -227,10 +159,52 @@ export const Folder = () => {
                     ))
                   }
                 </div>
+                <Modal
+                  open={openModal}
+                  className="w-full h-full flex justify-center items-center"
+                >
+                  <div
+                    className="min-w-72
+                     flex justify-between items-center bg-white rounded-md p-2 flex-col gap-2"
+                  >
+                    <div
+                      className="w-full flex justify-between items-center"
+                    >
+                      <p
+                        className="w-full text-lg text-start"
+                      >
+                        Nova Pasta
+                      </p>
+                    </div>
+                    <TextField
+                      className="w-full rounded-md p-2"
+                      placeholder="Nome da pasta"
+                      onChange={(e) => setSetNameFolder(e.target.value)}
+                    />
+                    <div
+                      className="w-full flex gap-2 justify-end"
+                    >
+                      <button
+                        onClick={() => setOpenModal(false)}
+                        className="text-lg font-medium text-red-500 p-2 rounded-md"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        onClick={handleCreateFolder}
+                        className="text-lg font-medium text-emerald-500 p-2 rounded-md"
+                      >
+                        Criar
+                      </button>
+                    </div>
+                  </div>
+    
+                </Modal>
                 <div
-                  className="flex gap-2">
+                  className="flex  gap-2"
+                >
                   {
-                    getFilesByFolder(folderSelectedFolder!.id).map(file => (
+                    getFilesNotInFolder().map(file => (
                       <CardFiles
                         file={file}
                         key={file.id}
@@ -243,22 +217,76 @@ export const Folder = () => {
                   }
                 </div>
               </div>
-            </div>
+            ) : (
+              <div
+                className="flex flex-col gap-2"
+              >
+                <button
+                  onClick={() => {
+                    setFolderSelected(getFolderFather(folderSelectedFolder))
+                    setVerifySelectedFolder(false)
+                  }}
+                  className="flex h-12 text-zinc-600 text-lg hover:text-emerald-500 transition-all duration-300 items-center gap-2"
+                >
+                  <ArrowBackIos />
+                  <p
+                    className="text-md"
+                  >voltar</p>
+                </button>
+                <div>
+                  <div
+                    className="flex flex-col gap-2"
+                  >
+                    <div
+                      className="flex gap-2"
+                    >
+    
+                      {
+                        getFolderChildren(folderSelectedFolder!).map(folder => (
+                          <CardFolder
+                            setSelectFolder={setFolderSelected}
+                            key={folder.id}
+                            folder={folder}
+                            setVerifySelectedFolder={setVerifySelectedFolder}
+                            folderSelectedFolder={folderSelectedFolder}
+                          />
+                        ))
+                      }
+                    </div>
+                    <div
+                      className="flex gap-2">
+                      {
+                        getFilesByFolder(folderSelectedFolder!.id).map(file => (
+                          <CardFiles
+                            file={file}
+                            key={file.id}
+                            fileSelected={fileSelected}
+                            setFileSelected={setFileSelected}
+                            verifySelectedFile={verifySelectedFile}
+                            setVerifySelectedFile={setVerifySelectedFile}
+                          />
+                        ))
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <footer>
-        <div
-          className="flex justify-start"
-        >
-          <button
-            onClick={() => setOpenModal(true)}
-            className="flex gap-2 items-center justify-center bg-emerald-500 text-white rounded-full p-2 hover:bg-emerald-600 transition-all duration-300"
-          >
-            <Add />
-          </button>
-        </div>
-      </footer>
+          <footer>
+            <div
+              className="flex justify-start"
+            >
+              <button
+                onClick={() => setOpenModal(true)}
+                className="flex gap-2 items-center justify-center bg-emerald-500 text-white rounded-full p-2 hover:bg-emerald-600 transition-all duration-300"
+              >
+                <Add />
+              </button>
+            </div>
+          </footer>
+        </> 
+      }
     </main>
   )
 }
