@@ -6,18 +6,19 @@ import { Add, ArrowBackIos, Brush, Clear, Delete } from "@mui/icons-material"
 import { FileService } from "../../store/file/file.service"
 import { CardFiles } from "./components/card-files"
 import { Modal, TextField } from "@mui/material"
+import { FileType } from "../../store/file/file.module"
 
 export const Folder = () => {
 
   const { folders, getFolders, getFolderChildren, getFolderFather, removeFolder, addFolder } = FolderService()
-  const { getFilesByFolder, getFilesNotInFolder, initFiles } = FileService()
+  const { getFilesByFolder, getFilesNotInFolder, initFiles, removeFile } = FileService()
   
   const [folderSelectedFolder, setFolderSelected] = useState<FolderType | null>(null)
   const [verifySelectedFolder, setVerifySelectedFolder] = useState<boolean>(false)
 
-  const [fileSelected, setFileSelected] = useState<FolderType | null>(null)
+  const [fileSelected, setFileSelected] = useState<FileType | null>(null)
   const [verifySelectedFile, setVerifySelectedFile] = useState<boolean>(false)
-  
+
 
   const [openModal, setOpenModal] = useState(false)
   const [setNameFolder, setSetNameFolder] = useState('')
@@ -67,13 +68,48 @@ export const Folder = () => {
             </button>
             <button
               className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
-
             >
               <Brush />
             </button>
           </div>
         )
       }
+
+      {
+        fileSelected && !verifySelectedFile && (
+          <div
+            className="w-auto flex gap-2 mb-8 items-center justify-start bg-emerald-200 rounded-full px-4 py-1"
+          >
+            <button
+              onClick={() => setFileSelected(null)}
+              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 rounded-full p-1"
+            >
+              <Clear />
+            </button>
+            <p
+              className="text-emerald-800"
+            >
+              1 item selecionado
+            </p>
+            <button
+              onClick={() => {
+                removeFile(fileSelected.id)
+                setFileSelected(null)
+              }}
+              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
+            >
+              <Delete />
+            </button>
+            {/* <button
+              className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
+
+            >
+              <Brush />
+            </button> */}
+          </div>
+        )
+      }
+
       <div
         className="flex gap-2 h-full"
       >
@@ -146,6 +182,10 @@ export const Folder = () => {
                   <CardFiles
                     file={file}
                     key={file.id}
+                    fileSelected={fileSelected}
+                    setFileSelected={setFileSelected}
+                    verifySelectedFile={verifySelectedFile}
+                    setVerifySelectedFile={setVerifySelectedFile}
                   />
                 ))
               }
@@ -194,6 +234,10 @@ export const Folder = () => {
                       <CardFiles
                         file={file}
                         key={file.id}
+                        fileSelected={fileSelected}
+                        setFileSelected={setFileSelected}
+                        verifySelectedFile={verifySelectedFile}
+                        setVerifySelectedFile={setVerifySelectedFile}
                       />
                     ))
                   }
