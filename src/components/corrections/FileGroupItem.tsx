@@ -29,10 +29,9 @@ export function FileGroupItem({ name, status, last = false }: FileGroupItemProps
 					"flex items-center gap-4 p-4 border-t border-slate-200 cursor-pointer",
 					last && "border-b border-slate-300"
 				)}
-				onClick={() => setModalOpen(true)}
+				onClick={() => status === "approved" && setModalOpen(true)}
 			>
 				<ImageIcon className="text-emerald-400" />
-
 				<p
 					className={cn(
 						"italic text-slate-800 font-semibold",
