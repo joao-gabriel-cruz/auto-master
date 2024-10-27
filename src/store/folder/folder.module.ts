@@ -12,3 +12,5 @@ export const foldersAtom = atom<StoreState<FolderType[]>>({
   status: 'idle',
   error: null
 })
+
+export const folderSelectedAtom = atom<FolderType | null>(null)

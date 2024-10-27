@@ -14,7 +14,7 @@ export const FileService = () => {
   }
 
   const addFile = (file: FileType) => {
-    setFiles([...files, file])
+    setFiles(prev => [...prev, file])
   }
 
   const removeFile = (id: string) => {
@@ -39,6 +39,7 @@ export const FileService = () => {
     updateFile,
     getFilesByFolder,
     getFilesNotInFolder,
-    initFiles
+    initFiles,
+    files
   }
 }

@@ -31,7 +31,7 @@ export const CardFiles = (props: CardFilesProps) => {
           }
       }
     }
-      className={cn("flex flex-col items-center justify-between bg-emerald-50 rounded-md shadow-md p-2 hover:bg-emerald-300 duration-300 transition-all cursor-pointer", 
+      className={cn("min-w-72 flex flex-col items-center justify-between bg-emerald-50 rounded-md shadow-md p-2 hover:bg-emerald-300 duration-300 transition-all cursor-pointer", 
         fileSelected && fileSelected.id === file.id ? "bg-emerald-200" : "hover:bg-emerald-100"
       )}
     >
@@ -46,11 +46,9 @@ export const CardFiles = (props: CardFilesProps) => {
 
 
       <div
-        className="w-32 overflow-hidden h-32 bg-white rounded-md flex items-center justify-center"
+        className="w-64 overflow-hidden h-32 bg-white rounded-md flex items-center justify-center"
       >
-          <iframe
-            className="overflow-hidden bg-cover bg-center "
-          src={file.path}  ></iframe>
+          <iframe className="overflow-hidden bg-cover bg-center" src={file.path}></iframe>
       </div>
     </div>
   )

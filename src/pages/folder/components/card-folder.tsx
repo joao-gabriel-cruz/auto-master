@@ -10,10 +10,11 @@ interface CardFolderProps {
   setSelectFolder: SetState<FolderType | null>
   folderSelectedFolder: FolderType | null
   setVerifySelectedFolder: SetState<boolean>
+  verifySelectedFolder: boolean
 }
 
 export const CardFolder = (props: CardFolderProps) => {
-  const { folder, setSelectFolder, folderSelectedFolder, setVerifySelectedFolder } = props
+  const { folder, setSelectFolder, folderSelectedFolder, setVerifySelectedFolder, verifySelectedFolder } = props
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -30,7 +31,7 @@ export const CardFolder = (props: CardFolderProps) => {
 
   return (
     <button
-      className={cn("relative min-w-48 flex items-center justify-between bg-emerald-50 rounded-md shadow-md p-2  duration-300 transition-all",
+      className={cn("relative min-w-72 flex items-center justify-between bg-emerald-50 rounded-md shadow-md p-2  duration-300 transition-all",
         folderSelectedFolder && folderSelectedFolder.id === folder.id ?
           "bg-emerald-200" : "hover:bg-emerald-100"
       )}
@@ -40,18 +41,29 @@ export const CardFolder = (props: CardFolderProps) => {
         onClick={() => {
           setSelectFolder(folder)
           if (folderSelectedFolder) {
-            if (folderSelectedFolder.id !== folder.id) {
-              setVerifySelectedFolder(false)
-            } else {
+            if (folderSelectedFolder.id === folder.id) {
               setVerifySelectedFolder(true)
+            } else if (verifySelectedFolder) {
+              setVerifySelectedFolder(true)
+            } else {
+              setVerifySelectedFolder(false)
             }
+            // if (folderSelectedFolder.id !== folder.id) {
+            //   if(verifySelectedFolder){
+            //     setVerifySelectedFolder(false)
+                
+            //   }else {
+            //     setVerifySelectedFolder(true)
+            //   }
+            // } else {
+            //   setVerifySelectedFolder(true)
+            // }
           } else {
             setVerifySelectedFolder(false)
           }
         }}
       >
         <Menu
-
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}

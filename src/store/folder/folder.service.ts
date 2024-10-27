@@ -34,12 +34,22 @@ export const FolderService = () => {
   }
 
   const getFolderChildren = (folder: FolderType) => {
-
     return folders.filter(f => f.idFolderParent === folder.id)
   }
 
+  const getPath = (folder: FolderType | null) => {
+    if (!folder) return 'Home'
+    const path = [folder.name]
+    let folderFather = getFolderFather(folder)
+    while (folderFather) {
+      path.push(folderFather.name)
+      folderFather = getFolderFather(folderFather)
+    }
+    return path.reverse().join(' / ')
+  }
+
  const getFolderFather = (folder: FolderType | null) => {
-    if (!folder) return null
+   if (!folder) return null
     return folders.find(f => f.id === folder.idFolderParent) ?? null
   }
   
@@ -50,6 +60,7 @@ export const FolderService = () => {
     getFolders,
     getFolderChildren,
     getFolderFather,
+    getPath,
     folders,
     error,
     status
