@@ -36,24 +36,24 @@ export const SideBar = () => {
 
 	return (
 		<main {...getRootProps()} className="flex h-screen">
-			<aside className="w-1/5 h-full bg-white p-2 rounded-lg shadow-lg">
-				<div className="h-[10%] flex justify-center items-center mb-2">
-					<h1 className="text-2xl font-semibold text-gray-800 ">Sidebar</h1>
+			<aside className="w-1/5 bg-gray-50 rounded-lg pt-8 pb-[0.7rem] shadow-lg flex flex-col justify-between">
+				<div className="h-[2%] flex justify-start px-6 items-center mb-2">
+					<h1 className="text-2xl font-semibold text-gray-800 italic">Automaster</h1>
 				</div>
-				<div className="w-full h-[85%] flex flex-col items-center  gap-4">
+				<div className="w-full h-[85%] flex flex-col items-center mt-8  gap-4">
 					{pages.map((page) => (
 						<ButtonsSideBar key={page.path} button={page} />
 					))}
 				</div>
 
-				<footer>
-					<div className="h-[5%] flex justify-center items-center">
-						<button className="flex bg-red-500 p-2 rounded-md text-white gap-2">
+				<div>
+					<div className="h-[5%] w-full flex justify-center items-center">
+						<button className="w-[50%] flex items-center justify-center bg-red-500 hover:bg-red-600 p-2 rounded-md text-white gap-2">
 							<p>Sair</p>
 							<ExitToApp />
 						</button>
 					</div>
-				</footer>
+				</div>
 			</aside>
 			{isDragActive && location.pathname === "/folder" && (
 				<div className="absolute w-screen h-screen bg-gray-900 flex justify-center items-center  duration-300 transition-all z-[5000] gap-2 bg-opacity-20">
@@ -66,7 +66,7 @@ export const SideBar = () => {
 					</div>
 				</div>
 			)}
-			<section className="w-4/5 h-full bg-gray-100 p-4 gap-4">
+			<section className="w-4/5 h-full bg-gray-200 p-4 gap-4">
 				<Header />
 				<BasePages>
 					<Outlet />

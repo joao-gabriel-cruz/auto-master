@@ -1,4 +1,5 @@
-import { CheckCircleOutline, Folder as FolderIcon } from "@mui/icons-material"
+import { Folder as FolderIcon } from "@mui/icons-material"
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Corrections } from "./corrections"
 import { Folder } from "./folder"
@@ -14,7 +15,7 @@ export interface PageSideBar {
 export const pages: PageSideBar[] = [
 	{
 		name: "Correções",
-		icon: CheckCircleOutline,
+		icon: CheckCircleIcon,
 		path: "/corrections",
 		element: <Corrections />,
 	},

@@ -51,7 +51,7 @@ export function NewCorrectionModal({ setOpen }: NewCorrectionModalProps) {
 									className="w-fit p-2 bg-gray-100 border rounded-l-md border-gray-400 flex items-center justify-center gap-2 cursor-pointer"
 								>
 									<CloudUploadIcon />
-									<p>Selecione os arquivos</p>
+									<p>Selecione as respostas</p>
 								</label>
 								<div className="border border-gray-400 h-10 px-2 rounded-r-md flex-1 flex-nowrap line-clamp-1">
 									{filesSelected && (
