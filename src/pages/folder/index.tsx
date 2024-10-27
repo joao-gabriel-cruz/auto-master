@@ -169,6 +169,18 @@ export const Folder = () => {
 											setFileSelected={setFileSelected}
 											verifySelectedFile={verifySelectedFile}
 											setVerifySelectedFile={setVerifySelectedFile}
+											onClick={() => {
+												setFileSelected(file)
+												if (fileSelected) {
+													if (fileSelected.id !== file.id) {
+														setVerifySelectedFile(false)
+													} else {
+														setVerifySelectedFile(true)
+													}
+												} else {
+													setVerifySelectedFile(false)
+												}
+											}}
 										/>
 									))}
 								</div>
@@ -176,7 +188,7 @@ export const Folder = () => {
 						) : (
 							<div className="flex flex-col gap-2">
 								<div>
-									<div className="flex flex-col gap-2">
+									<div className="flex flex-col gap-12">
 										<div className="flex gap-2">
 											{getFolderChildren(folderSelectedFolder!).map(
 												(folder) => (
