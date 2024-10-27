@@ -1,26 +1,17 @@
-import { Add, ArrowBackIos, Brush, Clear, Delete } from "@mui/icons-material"
-import { Modal, TextField } from "@mui/material"
+import { ArrowBackIos, Clear, Delete } from "@mui/icons-material"
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
+import { CardFiles } from "../../pages/folder/components/card-files"
+import { CardFolder } from "../../pages/folder/components/card-folder"
 import { FileType } from "../../store/file/file.module"
 import { FileService } from "../../store/file/file.service"
 import { folderSelectedAtom } from "../../store/folder/folder.module"
 import { FolderService } from "../../store/folder/folder.service"
 import { cn } from "../../utils/tw"
-import { CardFiles } from "./components/card-files"
-import { CardFolder } from "./components/card-folder"
 
-export const Folder = () => {
-	const {
-		folders,
-		getFolders,
-		getFolderChildren,
-		getFolderFather,
-		removeFolder,
-		addFolder,
-		getPath,
-	} = FolderService()
-	const { getFilesByFolder, getFilesNotInFolder, initFiles, removeFile } = FileService()
+export const FolderCorrent = () => {
+	const { folders, getFolderChildren, getFolderFather, removeFolder, getPath } = FolderService()
+	const { getFilesByFolder, getFilesNotInFolder, removeFile } = FileService()
 
 	const [folderSelectedFolder, setFolderSelected] = useAtom(folderSelectedAtom)
 	const [verifySelectedFolder, setVerifySelectedFolder] = useState<boolean>(false)
@@ -28,22 +19,12 @@ export const Folder = () => {
 	const [fileSelected, setFileSelected] = useState<FileType | null>(null)
 	const [verifySelectedFile, setVerifySelectedFile] = useState<boolean>(false)
 
-	const [openModal, setOpenModal] = useState(false)
-	const [setNameFolder, setSetNameFolder] = useState("")
-
-	const handleCreateFolder = () => {
-		addFolder({
-			id: Math.random().toString(),
-			name: setNameFolder,
-			idFolderParent: folderSelectedFolder?.id ?? null,
-		})
-		setOpenModal(false)
-	}
-
 	useEffect(() => {
-		getFolders()
-		initFiles()
-	}, [])
+		console.log({
+			a: folderSelectedFolder && getFolderChildren(folderSelectedFolder),
+			fileSelected,
+		})
+	}, [folderSelectedFolder, fileSelected])
 
 	return (
 		<main className="w-full h-full flex flex-col  bg-white rounded-md shadow-md p-6">
@@ -83,18 +64,6 @@ export const Folder = () => {
 								<Clear />
 							</button>
 							<p className="text-emerald-800">1 item selecionado</p>
-							<button
-								onClick={() => {
-									removeFolder(folderSelectedFolder!.id)
-									setFolderSelected(null)
-								}}
-								className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
-							>
-								<Delete />
-							</button>
-							<button className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full">
-								<Brush />
-							</button>
 						</div>
 					) : (
 						<div className={cn("w-auto flex gap-2 mb-8 items-center justify-start")}>
@@ -135,11 +104,11 @@ export const Folder = () => {
 								<Delete />
 							</button>
 							{/* <button
-                  className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
-    
-                >
-                  <Brush />
-                </button> */}
+                    className="text-emerald-800 transition-all duration-300 hover:bg-emerald-300 p-1 rounded-full"
+      
+                  >
+                    <Brush />
+                  </button> */}
 						</div>
 					)}
 
@@ -169,6 +138,18 @@ export const Folder = () => {
 											setFileSelected={setFileSelected}
 											verifySelectedFile={verifySelectedFile}
 											setVerifySelectedFile={setVerifySelectedFile}
+											onClick={() => {
+												setFileSelected(file)
+												if (fileSelected) {
+													if (fileSelected.id !== file.id) {
+														setVerifySelectedFile(false)
+													} else {
+														setVerifySelectedFile(true)
+													}
+												} else {
+													setVerifySelectedFile(false)
+												}
+											}}
 										/>
 									))}
 								</div>
@@ -205,18 +186,6 @@ export const Folder = () => {
 														setVerifySelectedFile={
 															setVerifySelectedFile
 														}
-														onClick={() => {
-															setFileSelected(file)
-															if (fileSelected) {
-																if (fileSelected.id !== file.id) {
-																	setVerifySelectedFile(false)
-																} else {
-																	setVerifySelectedFile(true)
-																}
-															} else {
-																setVerifySelectedFile(false)
-															}
-														}}
 													/>
 												)
 											)}
@@ -226,48 +195,6 @@ export const Folder = () => {
 							</div>
 						)}
 					</div>
-					<Modal
-						open={openModal}
-						className="w-full h-full flex justify-center items-center"
-					>
-						<div
-							className="min-w-72
-                     flex justify-between items-center bg-white rounded-md p-2 flex-col gap-2"
-						>
-							<div className="w-full flex justify-between items-center">
-								<p className="w-full text-lg text-start">Nova Pasta</p>
-							</div>
-							<TextField
-								className="w-full rounded-md p-2"
-								placeholder="Nome da pasta"
-								onChange={(e) => setSetNameFolder(e.target.value)}
-							/>
-							<div className="w-full flex gap-2 justify-end">
-								<button
-									onClick={() => setOpenModal(false)}
-									className="text-lg font-medium text-red-500 p-2 rounded-md"
-								>
-									Cancelar
-								</button>
-								<button
-									onClick={handleCreateFolder}
-									className="text-lg font-medium text-emerald-500 p-2 rounded-md"
-								>
-									Criar
-								</button>
-							</div>
-						</div>
-					</Modal>
-					<footer>
-						<div className="flex justify-start">
-							<button
-								onClick={() => setOpenModal(true)}
-								className="flex gap-2 items-center justify-center bg-emerald-500 text-white rounded-full p-2 hover:bg-emerald-600 transition-all duration-300"
-							>
-								<Add />
-							</button>
-						</div>
-					</footer>
 				</>
 			)}
 		</main>
